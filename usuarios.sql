@@ -88,7 +88,7 @@ GRANT INSERT, UPDATE, DELETE ON SistemaCreditos.CampaniaPromocional TO 'Gerente'
 GRANT INSERT, UPDATE, DELETE ON SistemaCreditos.CampaniaProducto TO 'Gerente'@'%';
 GRANT INSERT, UPDATE ON SistemaCreditos.Empleado TO 'Gerente'@'%';
 GRANT INSERT, UPDATE ON SistemaCreditos.ProductoFinanciero TO 'Gerente'@'%';
-
+GRANT INSERT, UPDATE ON SistemaCreditos.Cliente TO 'Gerente'@'%';
 
 -- ==============================================================================
 -- Aplicar privilegios
