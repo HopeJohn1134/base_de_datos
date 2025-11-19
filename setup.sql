@@ -74,7 +74,7 @@ CREATE TABLE CampaniaPromocional (
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50)
 );
- -- 1 a 500 pountaue reizgo
+
 CREATE TABLE EvaluacionRiesgo (
     idEvaluacion INT AUTO_INCREMENT PRIMARY KEY,
     puntajeRiesgo INT NOT NULL, -- 1 a 500
@@ -137,8 +137,7 @@ CREATE TABLE Cliente (
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
-    usuarioModif VARCHAR(50),
-    FOREIGN KEY (idEvaluacionActual) REFERENCES EvaluacionRiesgo(idEvaluacion)
+    usuarioModif VARCHAR(50)
 );
 
 
