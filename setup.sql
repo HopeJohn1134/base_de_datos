@@ -8,8 +8,8 @@ CREATE DATABASE SistemaCreditos CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci
 USE SistemaCreditos;
 
 
-CREATE TABLE Provincias (
-    idProvincias INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE Provincia (
+    idProvincia INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
@@ -109,7 +109,7 @@ CREATE TABLE Sucursal (
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50),
-    FOREIGN KEY (idProvincia) REFERENCES Provincias(idProvincias)
+    FOREIGN KEY (idProvincia) REFERENCES Provincia(idProvincia)
 );
 
 CREATE TABLE ProductoFinanciero (
