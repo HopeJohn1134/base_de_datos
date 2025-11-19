@@ -62,8 +62,8 @@ CREATE TABLE TipoEmpleado (
     usuarioModif VARCHAR(50)
 );
 
-CREATE TABLE CampañaPromocional (
-    idCampaña INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE CampaniaPromocional (
+    idCampania INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
     fechaInicio DATE,
@@ -75,8 +75,8 @@ CREATE TABLE CampañaPromocional (
     usuarioModif VARCHAR(50)
 );
  -- 1 a 500 pountaue reizgo
-CREATE TABLE EvaluaciónRiesgo (
-    idEvaluación INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE EvaluacionRiesgo (
+    idEvaluacion INT AUTO_INCREMENT PRIMARY KEY,
     puntajeRiesgo INT NOT NULL, -- 1 a 500
     ingresosDeclaradosMensual DECIMAL(15,2),
     observaciones TEXT,
@@ -127,7 +127,7 @@ CREATE TABLE ProductoFinanciero (
 
 CREATE TABLE Cliente (
     idCliente INT AUTO_INCREMENT PRIMARY KEY,
-    idEvaluaciónActual INT NULL, 
+    idEvaluacionActual INT NULL, 
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     dni VARCHAR(20) UNIQUE NOT NULL,
@@ -138,7 +138,7 @@ CREATE TABLE Cliente (
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50),
-    FOREIGN KEY (idEvaluaciónActual) REFERENCES EvaluaciónRiesgo(idEvaluación)
+    FOREIGN KEY (idEvaluacionActual) REFERENCES EvaluacionRiesgo(idEvaluacion)
 );
 
 
@@ -171,14 +171,14 @@ CREATE TABLE HistoricoTasa (
     FOREIGN KEY (idProducto) REFERENCES ProductoFinanciero(idProducto)
 );
 
-CREATE TABLE SolicitudCrédito (
+CREATE TABLE SolicitudCredito (
     idSolicitud INT AUTO_INCREMENT PRIMARY KEY,
     idCliente INT,
     idEmpleado INT,
     idProducto INT,
     idSucursalAlta INT,
     idEstadoSolicitud INT,
-    idEvaluaciónRelevante INT,
+    idEvaluacionRelevante INT,
     montoSolicitado DECIMAL(15,2),
     destino VARCHAR(255),
     fechaSolicitud DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -192,14 +192,14 @@ CREATE TABLE SolicitudCrédito (
     FOREIGN KEY (idProducto) REFERENCES ProductoFinanciero(idProducto),
     FOREIGN KEY (idSucursalAlta) REFERENCES Sucursal(idSucursal),
     FOREIGN KEY (idEstadoSolicitud) REFERENCES EstadoSolicitud(idEstado),
-    FOREIGN KEY (idEvaluaciónRelevante) REFERENCES EvaluaciónRiesgo(idEvaluación)
+    FOREIGN KEY (idEvaluacionRelevante) REFERENCES EvaluacionRiesgo(idEvaluacion)
 );
 
-CREATE TABLE Crédito (
-    idCrédito INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE Credito (
+    idCredito INT AUTO_INCREMENT PRIMARY KEY,
     idSolicitud INT,
     idProducto INT,
-    idCréditoRefinanciado INT NULL,
+    idCreditoRefinanciado INT NULL,
     montoOtorgado DECIMAL(15,2),
     tasaInteres DECIMAL(5,2),
     plazoMeses INT,
@@ -210,14 +210,14 @@ CREATE TABLE Crédito (
     fechaModif DATETIME ON UPDATE CURRENT_TIMESTAMP,
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50),
-    FOREIGN KEY (idSolicitud) REFERENCES SolicitudCrédito(idSolicitud),
+    FOREIGN KEY (idSolicitud) REFERENCES SolicitudCredito(idSolicitud),
     FOREIGN KEY (idProducto) REFERENCES ProductoFinanciero(idProducto),
-    FOREIGN KEY (idCréditoRefinanciado) REFERENCES Crédito(idCrédito)
+    FOREIGN KEY (idCreditoRefinanciado) REFERENCES Credito(idCredito)
 );
 
 CREATE TABLE Cuota (
     idCuota INT AUTO_INCREMENT PRIMARY KEY,
-    idCrédito INT,
+    idCredito INT,
     numeroCuota INT,
     fechaVencimiento DATE,
     montoTotal DECIMAL(15,2),
@@ -226,7 +226,7 @@ CREATE TABLE Cuota (
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50),
-    FOREIGN KEY (idCrédito) REFERENCES Crédito(idCrédito),
+    FOREIGN KEY (idCredito) REFERENCES Credito(idCredito),
     FOREIGN KEY (idEstadoCuota) REFERENCES EstadoCuota(idEstado)
 );
 
@@ -246,10 +246,10 @@ CREATE TABLE Pago (
     FOREIGN KEY (idMetodoPago) REFERENCES MetodoPago(idMetodo)
 );
 
-CREATE TABLE Penalización (
-    idPenalización INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE Penalizacion (
+    idPenalizacion INT AUTO_INCREMENT PRIMARY KEY,
     idCuota INT,
-    montoPenalización DECIMAL(15,2),
+    montoPenalizacion DECIMAL(15,2),
     motivo VARCHAR(255),
     fechaAplicacion DATETIME,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -260,51 +260,51 @@ CREATE TABLE Penalización (
 );
 
 
-CREATE TABLE CampañaProducto (
-    idCampaña INT,
+CREATE TABLE CampaniaProducto (
+    idCampania INT,
     idProducto INT,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50),
-    PRIMARY KEY (idCampaña, idProducto),
-    FOREIGN KEY (idCampaña) REFERENCES CampañaPromocional(idCampaña),
+    PRIMARY KEY (idCampania, idProducto),
+    FOREIGN KEY (idCampania) REFERENCES CampaniaPromocional(idCampania),
     FOREIGN KEY (idProducto) REFERENCES ProductoFinanciero(idProducto)
 );
 
-CREATE TABLE CampañaCliente (
-    idCampaña INT,
+CREATE TABLE CampaniaCliente (
+    idCampania INT,
     idCliente INT,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50),
-    PRIMARY KEY (idCampaña, idCliente),
-    FOREIGN KEY (idCampaña) REFERENCES CampañaPromocional(idCampaña),
+    PRIMARY KEY (idCampania, idCliente),
+    FOREIGN KEY (idCampania) REFERENCES CampaniaPromocional(idCampania),
     FOREIGN KEY (idCliente) REFERENCES Cliente(idCliente)
 );
 
-CREATE TABLE EvaluaciónGarante (
-    idEvaluación INT,
+CREATE TABLE EvaluacionGarante (
+    idEvaluacion INT,
     idGarante INT,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50),
-    PRIMARY KEY (idEvaluación, idGarante),
-    FOREIGN KEY (idEvaluación) REFERENCES EvaluaciónRiesgo(idEvaluación),
+    PRIMARY KEY (idEvaluacion, idGarante),
+    FOREIGN KEY (idEvaluacion) REFERENCES EvaluacionRiesgo(idEvaluacion),
     FOREIGN KEY (idGarante) REFERENCES Garante(idGarante)
 );
 
-CREATE TABLE EvaluaciónCliente (
-    idEvaluación INT,
+CREATE TABLE EvaluacionCliente (
+    idEvaluacion INT,
     idCliente INT,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50),
-    PRIMARY KEY (idEvaluación, idCliente),
-    FOREIGN KEY (idEvaluación) REFERENCES EvaluaciónRiesgo(idEvaluación),
+    PRIMARY KEY (idEvaluacion, idCliente),
+    FOREIGN KEY (idEvaluacion) REFERENCES EvaluacionRiesgo(idEvaluacion),
     FOREIGN KEY (idCliente) REFERENCES Cliente(idCliente)
 );
 
@@ -317,6 +317,6 @@ CREATE TABLE GaranteSolicitud (
     usuarioModif VARCHAR(50),
     PRIMARY KEY (idGarante, idSolicitud),
     FOREIGN KEY (idGarante) REFERENCES Garante(idGarante),
-    FOREIGN KEY (idSolicitud) REFERENCES SolicitudCrédito(idSolicitud)
+    FOREIGN KEY (idSolicitud) REFERENCES SolicitudCredito(idSolicitud)
 );
 
