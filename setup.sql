@@ -126,8 +126,7 @@ CREATE TABLE ProductoFinanciero (
 );
 
 CREATE TABLE Cliente (
-    idCliente INT AUTO_INCREMENT PRIMARY KEY,
-    idEvaluacionActual INT NULL, 
+    idCliente INT AUTO_INCREMENT PRIMARY KEY, 
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     dni VARCHAR(20) UNIQUE NOT NULL,
