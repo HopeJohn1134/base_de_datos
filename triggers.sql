@@ -1,15 +1,15 @@
 use SistemaCreditos;
 
 DELIMITER $$
--- Provincias
-DROP TRIGGER IF EXISTS trg_Provincias_INS$$
-CREATE TRIGGER trg_Provincias_INS BEFORE INSERT ON Provincias FOR EACH ROW BEGIN
+-- Provincia
+DROP TRIGGER IF EXISTS trg_Provincia_INS$$
+CREATE TRIGGER trg_Provincia_INS BEFORE INSERT ON Provincia FOR EACH ROW BEGIN
     SET NEW.usuarioAlta = IFNULL(NEW.usuarioAlta, SUBSTRING_INDEX(USER(), '@', 1));
     SET NEW.usuarioModif = NEW.usuarioAlta;
     SET NEW.fechaAlta = NOW();
 END$$
-DROP TRIGGER IF EXISTS trg_Provincias_UPD$$
-CREATE TRIGGER trg_Provincias_UPD BEFORE UPDATE ON Provincias FOR EACH ROW BEGIN
+DROP TRIGGER IF EXISTS trg_Provincia_UPD$$
+CREATE TRIGGER trg_Provincia_UPD BEFORE UPDATE ON Provincia FOR EACH ROW BEGIN
     SET NEW.usuarioModif = SUBSTRING_INDEX(USER(), '@', 1);
 END$$
 

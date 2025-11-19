@@ -18,7 +18,7 @@ GRANT SELECT ON SistemaCreditos.Cliente TO 'AtencionCliente'@'%';
 GRANT SELECT ON SistemaCreditos.Garante TO 'AtencionCliente'@'%';
 GRANT SELECT ON SistemaCreditos.ProductoFinanciero TO 'AtencionCliente'@'%';
 GRANT SELECT ON SistemaCreditos.Sucursal TO 'AtencionCliente'@'%';
-GRANT SELECT ON SistemaCreditos.Provincias TO 'AtencionCliente'@'%';
+GRANT SELECT ON SistemaCreditos.Provincia TO 'AtencionCliente'@'%';
 GRANT SELECT ON SistemaCreditos.TipoProductoFinanciero TO 'AtencionCliente'@'%';
 
 -- Escritura
