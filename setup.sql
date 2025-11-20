@@ -41,6 +41,7 @@ CREATE TABLE MetodoPago (
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50)
 );
+CREATE INDEX idx_pago_metodo ON Pago(idMetodoPago);
 
 CREATE TABLE TipoProductoFinanciero (
     idTipo INT AUTO_INCREMENT PRIMARY KEY,
@@ -136,6 +137,7 @@ CREATE TABLE Cliente (
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50)
 );
+CREATE INDEX idx_cliente_apellido_nombre ON Cliente(apellido, nombre);
 
 
 CREATE TABLE Empleado (
@@ -221,6 +223,7 @@ CREATE TABLE Cuota (
     FOREIGN KEY (idCredito) REFERENCES Credito(idCredito),
     FOREIGN KEY (idEstadoCuota) REFERENCES EstadoCuota(idEstado)
 );
+CREATE INDEX idx_cuota_estado_vencimiento ON Cuota(idEstadoCuota, fechaVencimiento);
 
 
 CREATE TABLE Pago (
@@ -237,6 +240,7 @@ CREATE TABLE Pago (
     FOREIGN KEY (idCuota) REFERENCES Cuota(idCuota),
     FOREIGN KEY (idMetodoPago) REFERENCES MetodoPago(idMetodo)
 );
+CREATE INDEX idx_solicitud_fecha ON SolicitudCredito(fechaSolicitud);
 
 CREATE TABLE Penalizacion (
     idPenalizacion INT AUTO_INCREMENT PRIMARY KEY,
@@ -250,6 +254,7 @@ CREATE TABLE Penalizacion (
     usuarioModif VARCHAR(50),
     FOREIGN KEY (idCuota) REFERENCES Cuota(idCuota)
 );
+CREATE INDEX idx_evaluacion_riesgo_ingresos ON EvaluacionRiesgo(puntajeRiesgo, ingresosDeclaradosMensual);
 
 
 /*
