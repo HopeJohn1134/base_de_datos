@@ -305,27 +305,3 @@ GROUP BY
     C.idCliente, C.nombre, C.apellido
 ORDER BY
     'Monto Máximo Crédito Otorgado' DESC;
--- C.apellido LIMIT 10;
-
-/* Paso 1: Crear la Vista (Ejecutar una sola vez)
-CREATE OR REPLACE VIEW Vista_DetalleDeuda AS
-SELECT 
-    Cl.nombre, 
-    Cl.apellido, 
-    Cr.idCredito, 
-    SUM(Cu.montoTotal) as DeudaTotal,
-    COUNT(CASE WHEN Cu.idEstadoCuota = 3 THEN 1 END) as CuotasVencidas
-FROM Cliente Cl
-JOIN SolicitudCredito SC ON Cl.idCliente = SC.idCliente
-JOIN Credito Cr ON SC.idSolicitud = Cr.idSolicitud
-JOIN Cuota Cu ON Cr.idCredito = Cu.idCredito
-WHERE Cu.idEstadoCuota IN (1, 3) -- Pendiente o Vencida
-GROUP BY Cl.nombre, Cl.apellido, Cr.idCredito;
-
--- Paso 2: Consultar la Vista
-SELECT * FROM Vista_DetalleDeuda WHERE CuotasVencidas > 0;*/
-
-
-
-
-
