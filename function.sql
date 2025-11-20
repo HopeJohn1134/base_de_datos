@@ -271,7 +271,7 @@ BEGIN
         SET v_resultado = 'AL DÍA';
     ELSEIF v_maxDiasAtraso <= 30 THEN
         SET v_resultado = 'MORA LEVE';
-    ELSEIF v_maxDiasAtraso <= 90 THEN
+    ELSEIF v_maxDiasAtraso > 30 THEN
         SET v_resultado = 'MORA GRAVE';
     END IF;
 
