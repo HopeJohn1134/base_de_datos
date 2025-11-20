@@ -1,5 +1,5 @@
 use SistemaCreditos;
--- 1 Producto Financiero con la Tasa de Interés Actual Más Alta
+-- 1 Producto Financiero con la Tasa de Interés Actual Más Alta :)
 SELECT
     pf.nombre AS 'Producto',
     ht.tasa AS 'Tasa Máxima (%)',
@@ -15,7 +15,7 @@ WHERE
 ORDER BY
     ht.tasa DESC;
 
--- 2 Clientes con el Puntaje de Riesgo Más Bajo
+-- 2 Clientes con el Puntaje de Riesgo Más Bajo:)
 SELECT
     C.nombre,
     C.apellido,
@@ -32,7 +32,7 @@ ORDER BY
     ER.puntajeRiesgo ASC;
     
 -- Consultas de Análisis Transaccional y Auditoría 
--- 3 Monto Total de Créditos Otorgados por Tipo de Producto
+-- 3 Monto Total de Créditos Otorgados por Tipo de Producto:)
     SELECT
     tpf.tipo AS 'Tipo de Producto',
     COUNT(c.idCredito) AS 'Cantidad de Créditos',
@@ -46,10 +46,10 @@ JOIN
 GROUP BY
     tpf.tipo
 ORDER BY
-    `Monto Total Otorgado` DESC; 
+    `Monto Total Otorgado` DESC; -- solo muestra 5
 
--- 4 Solicitudes Rechazadas y la Observación de Riesgo Correspondiente
- SELECT
+-- 4 Solicitudes Rechazadas y la Observación de Riesgo Correspondiente:)
+ SELECT -- se muestra raro 
     SC.idSolicitud, 
     C.nombre,
     C.apellido,
@@ -110,7 +110,7 @@ WHERE
 ORDER BY
     SC.fechaSolicitud DESC; 
 
--- 5 Empleados de Atención al Cliente que Registraron más Solicitudes
+-- 5 Empleados de Atención al Cliente que Registraron más Solicitudes:)
 SELECT
     E.nombre,
     E.apellido,
@@ -129,7 +129,7 @@ GROUP BY
 ORDER BY
     `Total Solicitudes Registradas` DESC; 
 
--- 6Cantidad de Cuotas Vencidas por Crédito y Cliente
+-- 6Cantidad de Cuotas Vencidas por Crédito y Cliente :)
 SELECT -- solo 3 cuotas vencidas para hacer de ejemplo
     Cte.nombre,
     Cte.apellido,
@@ -155,7 +155,7 @@ HAVING
 ORDER BY
     'Cuotas Vencidas' DESC;
     
--- Clasifica a los clientes según el monto total de créditos que han sacado
+-- 7 Clasifica a los clientes según el monto total de créditos que han sacado :)
 SELECT 
     C.nombre, 
     C.apellido, 
@@ -166,7 +166,7 @@ JOIN SolicitudCredito SC ON C.idCliente = SC.idCliente
 JOIN Credito Cr ON SC.idSolicitud = Cr.idSolicitud
 GROUP BY C.idCliente, C.nombre, C.apellido;
 
--- Muestra la cuota de mayor valor emitida en cada provincia
+-- 8 Muestra la cuota de mayor valor emitida en cada provincia :) ver si se corrige
 SELECT * FROM (
     SELECT 
         P.nombre as Provincia,
@@ -183,7 +183,7 @@ SELECT * FROM (
 ) as RankingProvincial
 WHERE TopCuota = 1;
 
--- Utiliza la función almacenada para etiquetar a los clientes
+-- 9 Utiliza la función almacenada para etiquetar a los clientes
 SELECT 
     C.idCliente,
     C.nombre,
@@ -191,7 +191,7 @@ SELECT
     fn_ObtenerEstadoMorosidad(C.idCliente) AS EstadoActual
 FROM Cliente C;
 
--- Clasifica los créditos en Corto, Mediano y Largo Plazo
+-- 10 Clasifica los créditos en Corto, Mediano y Largo Plazo
 SELECT 
     PF.nombre as Producto,
     Cr.plazoMeses,
@@ -206,7 +206,7 @@ JOIN ProductoFinanciero PF ON Cr.idProducto = PF.idProducto
 GROUP BY PF.nombre, Cr.plazoMeses;
 
 
--- Calcula cuántos clientes adhirieron a productos de cada campaña
+-- 11 Calcula cuántos clientes adhirieron a productos de cada campaña
 WITH ResumenCampania AS (
     SELECT 
         CP.nombre as Campania,
@@ -219,7 +219,7 @@ SELECT * FROM ResumenCampania
 WHERE ClientesAlcanzados > 0
 ORDER BY ClientesAlcanzados DESC;
 
--- Suma cuánto dinero debería entrar el próximo mes (cuotas no pagadas que vencen)
+-- 12 Suma cuánto dinero debería entrar el próximo mes (cuotas no pagadas que vencen)
 SELECT 
     MONTH(fechaVencimiento) as Mes,
     SUM(montoTotal) as FlujoEsperado
@@ -229,7 +229,7 @@ WHERE idEstadoCuota = 1 -- Pendiente
   AND YEAR(fechaVencimiento) = YEAR(DATE_ADD(NOW(), INTERVAL 1 MONTH))
 GROUP BY MONTH(fechaVencimiento);
 
--- Lista unificada de correos electrónicos de Clientes y Garantes para newsletter
+-- 13 Lista unificada de correos electrónicos de Clientes y Garantes para newsletter
 SELECT nombre, apellido, email, 'Cliente' as TipoPersona 
 FROM Cliente
 WHERE email IS NOT NULL
@@ -238,14 +238,14 @@ SELECT nombre, apellido, email, 'Garante' as TipoPersona
 FROM Garante
 WHERE email IS NOT NULL;
 
--- Busca clientes cuyo email no sea gmail o hotmail (posibles corporativos)
+-- 14 Busca clientes cuyo email no sea gmail o hotmail (posibles corporativos)
 SELECT nombre, apellido, email 
 FROM Cliente
 WHERE email NOT LIKE '%gmail%' 
   AND email NOT LIKE '%hotmail%'
   AND email NOT LIKE '%yahoo%';
   
-  -- Clientes que tienen créditos activos pero aún no han hecho ningún pago
+  -- 15 Clientes que tienen créditos activos pero aún no han hecho ningún pago
 SELECT C.nombre, C.apellido
 FROM Cliente C
 JOIN SolicitudCredito SC ON C.idCliente = SC.idCliente
@@ -256,7 +256,7 @@ WHERE NOT EXISTS (
     WHERE Cu.idCredito = Cr.idCredito
 );
 
--- Garantes que están en más de una solicitud aprobada
+-- 16 Garantes que están en más de una solicitud aprobada
 SELECT 
     G.nombre, 
     G.apellido, 
@@ -266,8 +266,8 @@ JOIN GaranteSolicitud GS ON G.idGarante = GS.idGarante
 GROUP BY G.idGarante, G.nombre, G.apellido
 HAVING COUNT(GS.idSolicitud) > 1;
 
-  
-  -- Paso 1: Crear la Vista (Ejecutar una sola vez)
+  -- 17 
+/* Paso 1: Crear la Vista (Ejecutar una sola vez)
 CREATE OR REPLACE VIEW Vista_DetalleDeuda AS
 SELECT 
     Cl.nombre, 
@@ -283,41 +283,9 @@ WHERE Cu.idEstadoCuota IN (1, 3) -- Pendiente o Vencida
 GROUP BY Cl.nombre, Cl.apellido, Cr.idCredito;
 
 -- Paso 2: Consultar la Vista
-SELECT * FROM Vista_DetalleDeuda WHERE CuotasVencidas > 0;
+SELECT * FROM Vista_DetalleDeuda WHERE CuotasVencidas > 0;*/
 
 
 
--- 9 Identificación de la Sucursal con la Cantidad Máxima de Analistas
-SELECT
-    S.nombre AS 'Sucursal',
-    P.nombre AS 'Provincia',
-    COUNT(E.idEmpleado) AS 'Total Analistas'
-FROM
-    Sucursal S
-JOIN
-    Provincia P ON S.idProvincia = P.idProvincia
-JOIN
-    Empleado E ON S.idSucursal = E.idSucursal
-JOIN
-    TipoEmpleado TE ON E.idTipoEmpleado = TE.idTipo
-WHERE
-    TE.tipo = 'Analista Crediticio'
-GROUP BY
-    S.nombre, P.nombre
-HAVING
-    COUNT(E.idEmpleado) = (
-        SELECT
-            COUNT(E2.idEmpleado)
-        FROM
-            Empleado E2
-        JOIN
-            TipoEmpleado TE2 ON E2.idTipoEmpleado = TE2.idTipo
-        WHERE
-            TE2.tipo = 'Analista Crediticio'
-        GROUP BY
-            E2.idSucursal
-        ORDER BY
-            COUNT(E2.idEmpleado) DESC
-    );
 
 
