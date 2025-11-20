@@ -258,7 +258,7 @@ WHERE
 ORDER BY
     C.apellido, C.nombre;
   
-  -- 15 Clientes que tienen créditos activos pero aún no han hecho ningún pago
+  -- 15 Clientes que tienen créditos activos pero aún no han hecho ningún pago  :)
 SELECT C.nombre, C.apellido
 FROM Cliente C
 JOIN SolicitudCredito SC ON C.idCliente = SC.idCliente
@@ -290,7 +290,7 @@ JOIN
 ORDER BY
     TPF.tipo, PF.limiteCrediticio DESC;
 
-  -- 17 Combinación de Agregación con LEFT JOIN Máximo Crédito Otorgado' REVISAR
+  -- 17 Combinación de Agregación con LEFT JOIN Máximo Crédito Otorgado' 
 SELECT
     C.nombre,
     C.apellido,
@@ -305,27 +305,3 @@ GROUP BY
     C.idCliente, C.nombre, C.apellido
 ORDER BY
     'Monto Máximo Crédito Otorgado' DESC;
--- C.apellido LIMIT 10;
-
-/* Paso 1: Crear la Vista (Ejecutar una sola vez)
-CREATE OR REPLACE VIEW Vista_DetalleDeuda AS
-SELECT 
-    Cl.nombre, 
-    Cl.apellido, 
-    Cr.idCredito, 
-    SUM(Cu.montoTotal) as DeudaTotal,
-    COUNT(CASE WHEN Cu.idEstadoCuota = 3 THEN 1 END) as CuotasVencidas
-FROM Cliente Cl
-JOIN SolicitudCredito SC ON Cl.idCliente = SC.idCliente
-JOIN Credito Cr ON SC.idSolicitud = Cr.idSolicitud
-JOIN Cuota Cu ON Cr.idCredito = Cu.idCredito
-WHERE Cu.idEstadoCuota IN (1, 3) -- Pendiente o Vencida
-GROUP BY Cl.nombre, Cl.apellido, Cr.idCredito;
-
--- Paso 2: Consultar la Vista
-SELECT * FROM Vista_DetalleDeuda WHERE CuotasVencidas > 0;*/
-
-
-
-
-
