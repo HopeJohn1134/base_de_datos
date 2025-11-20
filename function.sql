@@ -1,4 +1,4 @@
-USE SistemaGestion;
+USE SistemaCreditos;
 
 DELIMITER $$
 
