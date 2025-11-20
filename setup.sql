@@ -254,62 +254,66 @@ CREATE TABLE Penalizacion (
 );
 
 
+/*
+///// TABLAS DE INTERSECCIÓN/UNIÓN /////
+*/
+
 CREATE TABLE CampaniaProducto (
+    idCampaniaProducto INT AUTO_INCREMENT PRIMARY KEY,
     idCampania INT,
     idProducto INT,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50),
-    PRIMARY KEY (idCampania, idProducto),
     FOREIGN KEY (idCampania) REFERENCES CampaniaPromocional(idCampania),
     FOREIGN KEY (idProducto) REFERENCES ProductoFinanciero(idProducto)
 );
 
 CREATE TABLE CampaniaCliente (
+    idCampaniaCliente INT AUTO_INCREMENT PRIMARY KEY,
     idCampania INT,
     idCliente INT,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50),
-    PRIMARY KEY (idCampania, idCliente),
     FOREIGN KEY (idCampania) REFERENCES CampaniaPromocional(idCampania),
     FOREIGN KEY (idCliente) REFERENCES Cliente(idCliente)
 );
 
 CREATE TABLE EvaluacionGarante (
+    idEvaluacionGarante INT AUTO_INCREMENT PRIMARY KEY,
     idEvaluacion INT,
     idGarante INT,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50),
-    PRIMARY KEY (idEvaluacion, idGarante),
     FOREIGN KEY (idEvaluacion) REFERENCES EvaluacionRiesgo(idEvaluacion),
     FOREIGN KEY (idGarante) REFERENCES Garante(idGarante)
 );
 
 CREATE TABLE EvaluacionCliente (
+    idEvaluacionCliente INT AUTO_INCREMENT PRIMARY KEY,
     idEvaluacion INT,
     idCliente INT,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50),
-    PRIMARY KEY (idEvaluacion, idCliente),
     FOREIGN KEY (idEvaluacion) REFERENCES EvaluacionRiesgo(idEvaluacion),
     FOREIGN KEY (idCliente) REFERENCES Cliente(idCliente)
 );
 
 CREATE TABLE GaranteSolicitud (
+    idGaranteSolicitud INT AUTO_INCREMENT PRIMARY KEY,
     idGarante INT,
     idSolicitud INT,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
     usuarioModif VARCHAR(50),
-    PRIMARY KEY (idGarante, idSolicitud),
     FOREIGN KEY (idGarante) REFERENCES Garante(idGarante),
     FOREIGN KEY (idSolicitud) REFERENCES SolicitudCredito(idSolicitud)
 );
