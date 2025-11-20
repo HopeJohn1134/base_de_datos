@@ -298,4 +298,6 @@ CREATE TRIGGER trg_GaranteSolicitud_UPD BEFORE UPDATE ON GaranteSolicitud FOR EA
     SET NEW.usuarioModif = SUBSTRING_INDEX(USER(), '@', 1);
 END$$
 
+
+
 DELIMITER ;
