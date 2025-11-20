@@ -2,6 +2,8 @@
 -- VISTA 1: Vista_SolicitudesPendientes
 -- Muestra las solicitudes que requieren atención inmediata (Estado 'Pendiente' o 'En Revisión')
 -- =============================================================================
+USE SistemaCreditos;
+
 CREATE OR REPLACE VIEW Vista_SolicitudesPendientes AS
 SELECT 
     S.idSolicitud,
