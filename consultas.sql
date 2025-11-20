@@ -258,7 +258,7 @@ WHERE
 ORDER BY
     C.apellido, C.nombre;
   
-  -- 15 Clientes que tienen créditos activos pero aún no han hecho ningún pago
+  -- 15 Clientes que tienen créditos activos pero aún no han hecho ningún pago  :)
 SELECT C.nombre, C.apellido
 FROM Cliente C
 JOIN SolicitudCredito SC ON C.idCliente = SC.idCliente
@@ -290,7 +290,7 @@ JOIN
 ORDER BY
     TPF.tipo, PF.limiteCrediticio DESC;
 
-  -- 17 Combinación de Agregación con LEFT JOIN Máximo Crédito Otorgado' REVISAR
+  -- 17 Combinación de Agregación con LEFT JOIN Máximo Crédito Otorgado' 
 SELECT
     C.nombre,
     C.apellido,
