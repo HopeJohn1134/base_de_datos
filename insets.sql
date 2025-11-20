@@ -1,16 +1,11 @@
 use SistemaCreditos;
+
 -- Provincia
 INSERT INTO
     Provincia (nombre)
 VALUES
     ('Buenos Aires');
-INSERT INTO
-    Provincia (nombre)
-VALUES
     ('Ciudad Autónoma de Buenos Aires');
-INSERT INTO
-    Provincia (nombre)
-VALUES
     ('Catamarca'),
     ('Chaco'),
     ('Chubut'),
@@ -31,11 +26,10 @@ VALUES
     ('Santa Cruz'),
     ('Santa Fe'),
     ('Santiago del Estero');
-INSERT INTO
-    Provincia (nombre)
-VALUES
     ('Tierra del Fuego, Antártida e Islas del Atlántico Sur');
--- estadosolicitud
+
+
+-- EstadoSolicitud
 INSERT INTO
     EstadoSolicitud (estado)
 VALUES
@@ -43,6 +37,8 @@ VALUES
     ('Aprobada'),
     ('Rechazada'),
     ('En Revisión');
+
+
 -- EstadoCuota
 INSERT INTO
     EstadoCuota (estado)
@@ -50,6 +46,8 @@ VALUES
     ('Pendiente'),
     ('Pagada'),
     ('Vencida');
+
+
 -- MetodoPago
 INSERT INTO
     MetodoPago (descripcion)
@@ -59,6 +57,8 @@ VALUES
     ('Efectivo en Sucursal'),
     ('Cheque'),
     ('Billetera Virtual');
+
+
 -- TipoProductoFinanciero
 INSERT INTO
     TipoProductoFinanciero (tipo)
@@ -68,6 +68,8 @@ VALUES
     ('Préstamo Empresarial'),
     ('Leasing'),
     ('Tarjeta Corporativa');
+
+
 -- TipoEmpleado
 INSERT INTO
     TipoEmpleado (tipo)
@@ -77,6 +79,8 @@ VALUES
     ('Gestor de Cobranza'),
     ('Gerente de Sucursal'),
     ('Administrativo/Caja');
+
+
 -- Inserts para la tabla CampaniaPromocional (10 registros)
 INSERT INTO
     CampaniaPromocional (nombre, descripcion, fechaInicio, fechaFin, resultados)
@@ -91,6 +95,8 @@ VALUES
     ('Tarjeta C. Beneficio Cero', 'Promoción de 3 meses sin intereses en nuevas Tarjetas Corporativas.', '2025-07-20', '2025-10-20', 'Baja respuesta inicial.'),
     ('Inversión Agro 2025', 'Línea de crédito especial para el sector agropecuario con tasas subsidiadas.', '2025-04-01', '2025-09-30', 'Impacto medio en Provincia del interior.'),
     ('Préstamo Digital Express', 'Proceso de solicitud 100% online con aprobación en 24hs.', '2025-10-01', '2026-03-31', 'En curso');
+
+
 -- EvaluacionRiesgo
 -- PuntajeRiesgo: 1 (riesgo bajo/excelente) a 500 (riesgo alto)
 INSERT INTO
@@ -156,6 +162,8 @@ VALUES
     (200, 110000.00, 'Riesgo neutro. El proceso continúa.'),
     (490, 32000.00, 'Riesgo crítico. Solicitud solo viable con prenda.'),
     (105, 185000.00, 'Perfil sólido. Cliente con alta fidelidad.');
+
+
 -- Garante
 INSERT INTO
     Garante (nombre, apellido, dni, email, observaciones)
@@ -220,7 +228,9 @@ VALUES
     ('Irene', 'Alonso', '67888991', 'irene.alonso.g58@mail.com', 'Ingresos por renta pasiva.'),
     ('Lucas', 'Bustos', '68999000', 'lucas.bustos.g59@mail.com', 'Garante con excelente perfil.'),
     ('Monica', 'Cortes', '69000119', 'monica.cortes.g60@mail.com', 'Garante de bajo riesgo, sin problemas previos.');
---  Sucursal
+
+
+-- Sucursal
 -- Se usan idProvincia 1 (Buenos Aires), 6 (Córdoba), 13 (Mendoza), 21 (Santa Fe), 2 (CABA)
 INSERT INTO
     Sucursal (nombre, idProvincia, telefono, direccion)
@@ -230,7 +240,9 @@ VALUES
     ('Sucursal Mendoza Capital', 13, '2615556666', 'Calle Sarmiento 1200'),
     ('Sucursal Rosario', 21, '3416667777', 'Peatonal Córdoba 980'),
     ('Sucursal CABA Microcentro', 2, '1177778888', 'Florida 400');
--- pructoFinanciero
+
+
+-- ProductoFinanciero
 -- TIPO 1: Préstamo Personal (12 registros)
 INSERT INTO
     ProductoFinanciero (idTipoProducto, nombre, requisitos, limiteCrediticio)
@@ -247,6 +259,8 @@ VALUES
     (1, 'Préstamo Personal Premium', 'Para clientes con Score de riesgo < 50.', 800000.00),
     (1, 'Préstamo Púbico', 'Exclusivo para empleados de la administración pública.', 750000.00),
     (1, 'Préstamo Libre Disponibilidad', 'Sin justificación de destino. Ingreso min. $150.000.', 450000.00);
+
+
 -- TIPO 2: Préstamo Hipotecario (12 registros)
 INSERT INTO
     ProductoFinanciero (idTipoProducto, nombre, requisitos, limiteCrediticio)
@@ -263,6 +277,8 @@ VALUES
     (2, 'Hipotecario Simplificado', 'Para montos menores al 50% del valor del inmueble.', 5000000.00),
     (2, 'Hipotecario Compra Colectiva', 'Para desarrollos inmobiliarios específicos.', 9000000.00),
     (2, 'Hipotecario Verde', 'Para propiedades con certificación de eficiencia energética.', 11000000.00);
+
+
 -- TIPO 3: Préstamo Empresarial (12 registros)
 INSERT INTO
     ProductoFinanciero (idTipoProducto, nombre, requisitos, limiteCrediticio)
@@ -279,6 +295,8 @@ VALUES
     (3, 'Préstamo Tecnológico', 'Para adquisición de software y hardware. Plazo corto.', 2000000.00),
     (3, 'Préstamo Sustentable', 'Para proyectos con impacto ambiental positivo.', 4500000.00),
     (3, 'Préstamo Proveedores', 'Para pagar a proveedores, con garantía de cuentas por cobrar.', 6000000.00);
+
+
 -- TIPO 4: Leasing (12 registros)
 INSERT INTO
     ProductoFinanciero (idTipoProducto, nombre, requisitos, limiteCrediticio)
@@ -295,6 +313,8 @@ VALUES
     (4, 'Leasing Financiero', 'Enfoque en la opción de compra.', 4500000.00),
     (4, 'Leasing Operativo', 'Enfoque en el uso y devolución al final.', 3000000.00),
     (4, 'Leasing de Transporte Pesado', 'Para camiones y buses de larga distancia.', 10000000.00);
+
+
 -- TIPO 5: Tarjeta Corporativa (12 registros)
 INSERT INTO
     ProductoFinanciero (idTipoProducto, nombre, requisitos, limiteCrediticio)
@@ -311,6 +331,8 @@ VALUES
     (5, 'Tarjeta Verde Corporativa', 'Beneficios por consumo en comercios sostenibles.', 900000.00),
     (5, 'Tarjeta Digital Empresarial', 'Solo virtual, para pagos en línea.', 600000.00),
     (5, 'Tarjeta Cuentas por Pagar', 'Para centralizar pagos a proveedores.', 1200000.00);
+
+
 -- Cliente
 INSERT INTO
     Cliente (nombre, apellido, dni, direccion, telefono, email)
@@ -375,6 +397,8 @@ VALUES
     ('Karen', 'Nieto', '77888999', 'Av. 9 de Julio 5800, CABA', '1140001058', 'karen.nieto.c58@mail.com'),
     ('Lucas', 'Pérez', '78999000', 'San Martín 5900, Corrientes', '3794400059', 'lucas.perez.c59@mail.com'),
     ('Marta', 'Rojas', '79000111', 'Av. Mitre 6000, Córdoba', '35140001060', 'marta.rojas.c60@mail.com');
+
+
 -- Empleado
 INSERT INTO
     Empleado (idSucursal, idTipoEmpleado, nombre, apellido, dni, email)
@@ -502,6 +526,8 @@ VALUES -- SUCURSAL 1 (CABA - 12 Empleados)
     (5, 5, 'Belén', 'Navarro', '50000059', 'belen.navarro.s5@empresa.com'),
     -- Administrativo
     (5, 3, 'Cecilia', 'Ortiz', '50000060', 'cecilia.ortiz.s5@empresa.com');
+
+
 -- Cobranza
 -- HistoricoTasa
 INSERT INTO
@@ -567,6 +593,8 @@ VALUES
     (58, 61.65, '2025-01-30', NULL),
     (59, 77.83, '2025-01-20', NULL),
     (60, 68.22, '2025-01-11', NULL);
+
+
 -- SolicitudCredito
 INSERT INTO
     SolicitudCredito (idCliente, idEmpleado, idProducto, idEstadoSolicitud, idEvaluacionRelevante, montoSolicitado, destino, fechaSolicitud)
@@ -692,6 +720,8 @@ VALUES -- Productos Personales (1-12) y Hipotecarios (13-24)
     (59, 29, 49, 3, 59, 4000000.00, 'Leasing de Construcción', '2025-03-19 09:30:00'),
     -- Rechazada
     (60, 41, 10, 2, 60, 550000.00, 'Préstamo Rápido Online', '2025-03-20 11:00:00');
+
+
 -- Aprobada
 -- Credito
 INSERT INTO
@@ -743,6 +773,8 @@ VALUES -- Grupo 1 (Solicitudes Aprobadas: ID 1, 3, 4, 6, 8, 10, 11, 12, 14, 15)
     (57, 59, 1800000.00, 77.83, 24, '2025-03-27', '2027-03-27', NULL),
     (58, 36, 5500000.00, 23.34, 48, '2025-03-28', '2029-03-28', NULL),
     (60, 10, 550000.00, 64.96, 18, '2025-03-30', '2026-09-30', NULL);
+
+
 -- Cuota
 INSERT INTO
     Cuota (idCredito, numeroCuota, fechaVencimiento, montoTotal, idEstadoCuota)
@@ -823,6 +855,8 @@ VALUES -- CRÉDITO 1: (idCredito: 1, Monto: 120000.00, Tasa: 65.19, Plazo: 12M, 
     (5, 10, '2025-11-27', 81680.00, 1),
     (5, 11, '2025-12-27', 81680.00, 1),
     (5, 12, '2026-01-27', 81680.00, 1);
+
+
 -- Pago
 -- Inserts para la tabla Pago (60 registros: 1 pago por cada Cuota ID 1 a 60)
 -- Se asume que idCuota 1-60 existen y representan la Cuota 1 de 60 créditos.
@@ -887,6 +921,8 @@ INSERT INTO Pago (idCuota, idMetodoPago, fechaPago, montoPagado, diasDemora) VAL
 (58, 1, '2025-05-12 00:00:00', 280000.00, 0),
 (59, 2, '2025-05-13 00:00:00', 50000.00, 2),
 (60, 4, '2025-05-14 00:00:00', 105000.00, 0);
+
+
 -- Penalizacion
 /*INSERT INTO
     Penalizacion (idCuota, montoPenalizacion, motivo, fechaAplicacion)
@@ -952,6 +988,8 @@ VALUES
     (2186, 10723.13, 'Mora por 30 días (Cuota 2, Crédito 28).', '2025-06-11 10:15:00'),
     (2198, 20300.97, 'Mora de 15 días (Cuota 2, Crédito 29).', '2025-06-13 11:30:00'),
     (2216, 4583.00, 'Mora de 30 días (Cuota 2, Crédito 30).', '2025-06-14 12:45:00');*/
+
+
 INSERT INTO Penalizacion (idCuota, montoPenalizacion, motivo, fechaAplicacion) VALUES 
 -- Penalizaciones Principales (idCuota 1 a 30) :)
 (1, 725.00, 'Mora por 10 días en cuota personal.', '2025-02-28 10:00:00'),
@@ -1016,7 +1054,8 @@ INSERT INTO Penalizacion (idCuota, montoPenalizacion, motivo, fechaAplicacion) V
 (58, 14000.00, 'Mora por 30 días (Crédito 58).', '2025-06-11 10:15:00'),
 (59, 2500.00, 'Mora de 15 días (Crédito 59).', '2025-06-12 11:30:00'),
 (60, 5250.00, 'Mora de 30 días (Crédito 60).', '2025-06-13 12:45:00');
-    
+   
+
 -- CampaniaProducto
 INSERT INTO
     CampaniaProducto (idCampania, idProducto)
@@ -1090,6 +1129,8 @@ VALUES -- Productos 1-6 asignados a Campaña 1 (Lanzamiento Primavera 2025)
     (10, 40),
     (10, 50),
     (10, 60);
+
+
 -- CampaniaCliente
 INSERT INTO
     CampaniaCliente (idCampania, idCliente)
@@ -1163,6 +1204,8 @@ VALUES -- Clientes 1-6 asignados a Campaña 1 (Lanzamiento Primavera 2025)
     (10, 40),
     (10, 50),
     (10, 60);
+
+
 -- EvaluacionGarante
 INSERT INTO
     EvaluacionGarante (idEvaluacion, idGarante)
@@ -1227,6 +1270,8 @@ VALUES
     (58, 58),
     (59, 59),
     (60, 60);
+
+
 -- EvaluacionCliente
 INSERT INTO
     EvaluacionCliente (idEvaluacion, idCliente)
@@ -1291,6 +1336,8 @@ VALUES
     (58, 58),
     (59, 59),
     (60, 60);
+
+
 -- GaranteSolicitud
 INSERT INTO
     GaranteSolicitud (idGarante, idSolicitud)
@@ -1376,4 +1423,4 @@ VALUES -- GRUPO 1: Garante Primario para las 40 Solicitudes Aprobadas (Garante 1
     (59, 37),
     -- Solicitud 37 (Empresarial)
     (60, 54);
--- Solicitud 54 (Hipotecario)
+	-- Solicitud 54 (Hipotecario)
