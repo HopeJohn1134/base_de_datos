@@ -287,6 +287,37 @@ SELECT * FROM Vista_DetalleDeuda WHERE CuotasVencidas > 0;
 
 
 
-
+-- 9 Identificación de la Sucursal con la Cantidad Máxima de Analistas
+SELECT
+    S.nombre AS 'Sucursal',
+    P.nombre AS 'Provincia',
+    COUNT(E.idEmpleado) AS 'Total Analistas'
+FROM
+    Sucursal S
+JOIN
+    Provincia P ON S.idProvincia = P.idProvincia
+JOIN
+    Empleado E ON S.idSucursal = E.idSucursal
+JOIN
+    TipoEmpleado TE ON E.idTipoEmpleado = TE.idTipo
+WHERE
+    TE.tipo = 'Analista Crediticio'
+GROUP BY
+    S.nombre, P.nombre
+HAVING
+    COUNT(E.idEmpleado) = (
+        SELECT
+            COUNT(E2.idEmpleado)
+        FROM
+            Empleado E2
+        JOIN
+            TipoEmpleado TE2 ON E2.idTipoEmpleado = TE2.idTipo
+        WHERE
+            TE2.tipo = 'Analista Crediticio'
+        GROUP BY
+            E2.idSucursal
+        ORDER BY
+            COUNT(E2.idEmpleado) DESC
+    );
 
 
