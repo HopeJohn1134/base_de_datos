@@ -1,5 +1,3 @@
-
-
 DROP DATABASE IF EXISTS SistemaCreditos;
 
 SET NAMES utf8mb4;
@@ -37,7 +35,7 @@ CREATE TABLE EstadoCuota (
 
 CREATE TABLE MetodoPago (
     idMetodo INT AUTO_INCREMENT PRIMARY KEY,
-    descripcion VARCHAR(100) NOT NULL,
+    descripcion VARCHAR(100),
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
@@ -66,8 +64,8 @@ CREATE TABLE CampaniaPromocional (
     idCampania INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
-    fechaInicio DATE,
-    fechaFin DATE,
+    fechaInicio DATE NOT NULL,
+    fechaFin DATE NOT NULL,
     resultados TEXT,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
@@ -77,7 +75,7 @@ CREATE TABLE CampaniaPromocional (
 
 CREATE TABLE EvaluacionRiesgo (
     idEvaluacion INT AUTO_INCREMENT PRIMARY KEY,
-    puntajeRiesgo INT NOT NULL, -- 1 a 500
+	puntajeRiesgo INT NOT NULL CHECK (puntajeRiesgo BETWEEN 1 AND 500),
     ingresosDeclaradosMensual DECIMAL(15,2),
     observaciones TEXT,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -102,7 +100,7 @@ CREATE TABLE Garante (
 CREATE TABLE Sucursal (
     idSucursal INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    idProvincia INT,
+    idProvincia INT NOT NULL,
     telefono VARCHAR(20),
     direccion VARCHAR(255),
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -114,7 +112,7 @@ CREATE TABLE Sucursal (
 
 CREATE TABLE ProductoFinanciero (
     idProducto INT AUTO_INCREMENT PRIMARY KEY,
-    idTipoProducto INT,
+    idTipoProducto INT NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     requisitos TEXT,
     limiteCrediticio DECIMAL(15,2),
@@ -130,9 +128,9 @@ CREATE TABLE Cliente (
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     dni VARCHAR(20) UNIQUE NOT NULL,
-    direccion VARCHAR(255),
-    telefono VARCHAR(20),
-    email VARCHAR(100) UNIQUE,
+    direccion VARCHAR(255) NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
@@ -143,11 +141,11 @@ CREATE TABLE Cliente (
 CREATE TABLE Empleado (
     idEmpleado INT AUTO_INCREMENT PRIMARY KEY,
     idSucursal INT,
-    idTipoEmpleado INT,
+    idTipoEmpleado INT NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     dni VARCHAR(20) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE,
+    email VARCHAR(100) UNIQUE NOT NULL,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
@@ -158,10 +156,10 @@ CREATE TABLE Empleado (
 
 CREATE TABLE HistoricoTasa (
     idTasa INT AUTO_INCREMENT PRIMARY KEY,
-    idProducto INT,
+    idProducto INT NOT NULL,
     tasa DECIMAL(5,2) NOT NULL,
-    fechaInicio DATE,
-    fechaFin DATE,
+    fechaInicio DATE NOT NULL,
+    fechaFin DATE NOT NULL,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
@@ -171,13 +169,13 @@ CREATE TABLE HistoricoTasa (
 
 CREATE TABLE SolicitudCredito (
     idSolicitud INT AUTO_INCREMENT PRIMARY KEY,
-    idCliente INT,
-    idEmpleado INT,
-    idProducto INT,
-    idEstadoSolicitud INT,
-    idEvaluacionRelevante INT,
-    montoSolicitado DECIMAL(15,2),
-    destino VARCHAR(255),
+    idCliente INT NOT NULL,
+    idEmpleado INT NOT NULL,
+    idProducto INT NOT NULL,
+    idEstadoSolicitud INT NOT NULL,
+    idEvaluacionRelevante INT NOT NULL,
+    montoSolicitado DECIMAL(15,2) NOT NULL,
+    destino TEXT,
     fechaSolicitud DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
@@ -192,12 +190,12 @@ CREATE TABLE SolicitudCredito (
 
 CREATE TABLE Credito (
     idCredito INT AUTO_INCREMENT PRIMARY KEY,
-    idSolicitud INT,
-    idProducto INT,
-    idCreditoRefinanciado INT NULL,
-    montoOtorgado DECIMAL(15,2),
-    tasaInteres DECIMAL(5,2),
-    plazoMeses INT,
+    idSolicitud INT NOT NULL,
+    idProducto INT NOT NULL,
+    idCreditoRefinanciado INT DEFAULT NULL,
+    montoOtorgado DECIMAL(15,2) NOT NULL,
+    tasaInteres DECIMAL(5,2) NOT NULL,
+    plazoMeses INT NOT NULL,
     fechaInicio DATE,
     fechaFin DATE,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -211,11 +209,11 @@ CREATE TABLE Credito (
 
 CREATE TABLE Cuota (
     idCuota INT AUTO_INCREMENT PRIMARY KEY,
-    idCredito INT,
-    numeroCuota INT,
+    idCredito INT NOT NULL,
+    idEstadoCuota INT NOT NULL,
+    numeroCuota INT NOT NULL,
     fechaVencimiento DATE,
     montoTotal DECIMAL(15,2),
-    idEstadoCuota INT,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
@@ -227,8 +225,8 @@ CREATE TABLE Cuota (
 
 CREATE TABLE Pago (
     idPago INT AUTO_INCREMENT PRIMARY KEY,
-    idCuota INT,
-    idMetodoPago INT,
+    idCuota INT NOT NULL,
+    idMetodoPago INT NOT NULL,
     fechaPago DATETIME DEFAULT CURRENT_TIMESTAMP,
     montoPagado DECIMAL(15,2),
     diasDemora INT DEFAULT 0,
@@ -242,8 +240,8 @@ CREATE TABLE Pago (
 
 CREATE TABLE Penalizacion (
     idPenalizacion INT AUTO_INCREMENT PRIMARY KEY,
-    idCuota INT,
-    montoPenalizacion DECIMAL(15,2),
+    idCuota INT NOT NULL,
+    montoPenalizacion DECIMAL(15,2) NOT NULL,
     motivo VARCHAR(255),
     fechaAplicacion DATETIME,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -255,13 +253,13 @@ CREATE TABLE Penalizacion (
 
 
 /*
-///// TABLAS DE INTERSECCIÓN/UNIÓN /////
+///// TABLAS DE INTERMEDIAS/INTERSECCIÓN/UNIÓN /////
 */
 
 CREATE TABLE CampaniaProducto (
     idCampaniaProducto INT AUTO_INCREMENT PRIMARY KEY,
-    idCampania INT,
-    idProducto INT,
+    idCampania INT NOT NULL,
+    idProducto INT NOT NULL,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
@@ -272,8 +270,8 @@ CREATE TABLE CampaniaProducto (
 
 CREATE TABLE CampaniaCliente (
     idCampaniaCliente INT AUTO_INCREMENT PRIMARY KEY,
-    idCampania INT,
-    idCliente INT,
+    idCampania INT NOT NULL,
+    idCliente INT NOT NULL,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
@@ -284,8 +282,8 @@ CREATE TABLE CampaniaCliente (
 
 CREATE TABLE EvaluacionGarante (
     idEvaluacionGarante INT AUTO_INCREMENT PRIMARY KEY,
-    idEvaluacion INT,
-    idGarante INT,
+    idEvaluacion INT NOT NULL,
+    idGarante INT NOT NULL,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
@@ -296,8 +294,8 @@ CREATE TABLE EvaluacionGarante (
 
 CREATE TABLE EvaluacionCliente (
     idEvaluacionCliente INT AUTO_INCREMENT PRIMARY KEY,
-    idEvaluacion INT,
-    idCliente INT,
+    idEvaluacion INT NOT NULL,
+    idCliente INT NOT NULL,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
@@ -308,8 +306,8 @@ CREATE TABLE EvaluacionCliente (
 
 CREATE TABLE GaranteSolicitud (
     idGaranteSolicitud INT AUTO_INCREMENT PRIMARY KEY,
-    idGarante INT,
-    idSolicitud INT,
+    idGarante INT NOT NULL,
+    idSolicitud INT NOT NULL,
     fechaAlta DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaBaja DATETIME NULL,
     usuarioAlta VARCHAR(50),
