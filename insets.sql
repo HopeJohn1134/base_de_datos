@@ -4,8 +4,8 @@ use SistemaCreditos;
 INSERT INTO
     Provincia (nombre)
 VALUES
-    ('Buenos Aires');
-    ('Ciudad Autónoma de Buenos Aires');
+    ('Buenos Aires'),
+    ('Ciudad Autónoma de Buenos Aires'),
     ('Catamarca'),
     ('Chaco'),
     ('Chubut'),
@@ -25,7 +25,7 @@ VALUES
     ('San Luis'),
     ('Santa Cruz'),
     ('Santa Fe'),
-    ('Santiago del Estero');
+    ('Santiago del Estero'),
     ('Tierra del Fuego, Antártida e Islas del Atlántico Sur');
 
 
