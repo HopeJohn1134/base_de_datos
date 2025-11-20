@@ -191,7 +191,7 @@ SELECT
     fn_ObtenerEstadoMorosidad(C.idCliente) AS EstadoActual
 FROM Cliente C;
 
--- 10 Clasifica los créditos en Corto, Mediano y Largo Plazo
+-- 10 Clasifica los créditos en Corto, Mediano y Largo Plazo :)
 SELECT 
     PF.nombre as Producto,
     Cr.plazoMeses,
@@ -205,8 +205,7 @@ FROM Credito Cr
 JOIN ProductoFinanciero PF ON Cr.idProducto = PF.idProducto
 GROUP BY PF.nombre, Cr.plazoMeses;
 
-
--- 11 Calcula cuántos clientes adhirieron a productos de cada campaña
+-- 11 Calcula cuántos clientes adhirieron a productos de cada campaña :)
 WITH ResumenCampania AS (
     SELECT 
         CP.nombre as Campania,
@@ -219,7 +218,7 @@ SELECT * FROM ResumenCampania
 WHERE ClientesAlcanzados > 0
 ORDER BY ClientesAlcanzados DESC;
 
--- 12 Suma cuánto dinero debería entrar el próximo mes (cuotas no pagadas que vencen)
+-- 12 Suma cuánto dinero debería entrar el próximo mes (cuotas no pagadas que vencen) :)
 SELECT 
     MONTH(fechaVencimiento) as Mes,
     SUM(montoTotal) as FlujoEsperado
@@ -229,7 +228,7 @@ WHERE idEstadoCuota = 1 -- Pendiente
   AND YEAR(fechaVencimiento) = YEAR(DATE_ADD(NOW(), INTERVAL 1 MONTH))
 GROUP BY MONTH(fechaVencimiento);
 
--- 13 Lista unificada de correos electrónicos de Clientes y Garantes para newsletter
+-- 13 Lista unificada de correos electrónicos de Clientes y Garantes para la publicidad/noticias/alertas:)
 SELECT nombre, apellido, email, 'Cliente' as TipoPersona 
 FROM Cliente
 WHERE email IS NOT NULL
@@ -238,12 +237,26 @@ SELECT nombre, apellido, email, 'Garante' as TipoPersona
 FROM Garante
 WHERE email IS NOT NULL;
 
--- 14 Busca clientes cuyo email no sea gmail o hotmail (posibles corporativos)
-SELECT nombre, apellido, email 
-FROM Cliente
-WHERE email NOT LIKE '%gmail%' 
-  AND email NOT LIKE '%hotmail%'
-  AND email NOT LIKE '%yahoo%';
+-- 14 Correos Electrónicos de Clientes Morosos (Con Deuda)
+SELECT DISTINCT
+    C.email,
+    C.nombre,
+    C.apellido
+FROM
+    Cliente C
+JOIN
+    SolicitudCredito SC ON C.idCliente = SC.idCliente
+JOIN
+    Credito Cr ON SC.idSolicitud = Cr.idSolicitud
+JOIN
+    Cuota Cu ON Cr.idCredito = Cu.idCredito
+WHERE
+    Cu.idEstadoCuota = (
+        -- Subconsulta Escalar: Obtiene el ID del estado 'Vencida' (deuda)
+        SELECT idEstado FROM EstadoCuota WHERE estado = 'Vencida'
+    )
+ORDER BY
+    C.apellido, C.nombre;
   
   -- 15 Clientes que tienen créditos activos pero aún no han hecho ningún pago
 SELECT C.nombre, C.apellido
@@ -256,17 +269,44 @@ WHERE NOT EXISTS (
     WHERE Cu.idCredito = Cr.idCredito
 );
 
--- 16 Garantes que están en más de una solicitud aprobada
-SELECT 
-    G.nombre, 
-    G.apellido, 
-    COUNT(GS.idSolicitud) as CantidadGarantias
-FROM Garante G
-JOIN GaranteSolicitud GS ON G.idGarante = GS.idGarante
-GROUP BY G.idGarante, G.nombre, G.apellido
-HAVING COUNT(GS.idSolicitud) > 1;
+-- 16 Análisis de Ingresos x Promedio del Tipo de Producto :)
+SELECT
+    PF.nombre AS 'Producto',
+    TPF.tipo AS 'Tipo de Producto',
+    PF.limiteCrediticio AS 'Límite Individual',
+    (
+        -- Subconsulta Correlacionada en SELECT: calcula el promedio para el tipo de producto actual (TPF.idTipo)
+        SELECT
+            AVG(PF2.limiteCrediticio)
+        FROM
+            ProductoFinanciero PF2
+        WHERE
+            PF2.idTipoProducto = TPF.idTipo -- Correlación por el ID del Tipo
+    ) AS 'Límite Promedio del Tipo'
+FROM
+    ProductoFinanciero PF
+JOIN
+    TipoProductoFinanciero TPF ON PF.idTipoProducto = TPF.idTipo
+ORDER BY
+    TPF.tipo, PF.limiteCrediticio DESC;
 
-  -- 17 
+  -- 17 Combinación de Agregación con LEFT JOIN Máximo Crédito Otorgado' REVISAR
+SELECT
+    C.nombre,
+    C.apellido,
+    MAX(Cr.montoOtorgado) AS 'Monto Máximo Crédito Otorgado'
+FROM
+    Cliente C
+LEFT JOIN
+    SolicitudCredito SC ON C.idCliente = SC.idCliente
+LEFT JOIN
+    Credito Cr ON SC.idSolicitud = Cr.idSolicitud
+GROUP BY
+    C.idCliente, C.nombre, C.apellido
+ORDER BY
+    'Monto Máximo Crédito Otorgado' DESC;
+-- C.apellido LIMIT 10;
+
 /* Paso 1: Crear la Vista (Ejecutar una sola vez)
 CREATE OR REPLACE VIEW Vista_DetalleDeuda AS
 SELECT 
