@@ -174,7 +174,6 @@ CREATE TABLE SolicitudCredito (
     idCliente INT,
     idEmpleado INT,
     idProducto INT,
-    idSucursalAlta INT,
     idEstadoSolicitud INT,
     idEvaluacionRelevante INT,
     montoSolicitado DECIMAL(15,2),
@@ -187,7 +186,6 @@ CREATE TABLE SolicitudCredito (
     FOREIGN KEY (idCliente) REFERENCES Cliente(idCliente),
     FOREIGN KEY (idEmpleado) REFERENCES Empleado(idEmpleado),
     FOREIGN KEY (idProducto) REFERENCES ProductoFinanciero(idProducto),
-    FOREIGN KEY (idSucursalAlta) REFERENCES Sucursal(idSucursal),
     FOREIGN KEY (idEstadoSolicitud) REFERENCES EstadoSolicitud(idEstado),
     FOREIGN KEY (idEvaluacionRelevante) REFERENCES EvaluacionRiesgo(idEvaluacion)
 );
